@@ -46,9 +46,9 @@
     "0xD8D8FF"
   ],
   "rotate": 20,
-  "num": 6,
-  "dot": 0,
-  "curve": 4,
+  "num": 4,
+  "dot": 10,
+  "curve": 8,
   "width": 200,
   "height": 60,
   "align": 2,

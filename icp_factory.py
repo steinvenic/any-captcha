@@ -4,6 +4,7 @@
 target captcha url: http://www.miitbeian.gov.cn/getVerifyCode?4
 """
 import json
+import string
 
 from model.capthafactory import CaptchaFactory
 
@@ -20,24 +21,25 @@ def bg_custom_fn(bg):
     return bg
 
 
-def main():
+def main(type,count):
     project_name = "icp"
     with open("configs/icp.json", encoding="utf-8") as fp:
         demo_config = json.load(fp)
 
-    # with open("configs/char/specific_chars.json", encoding="utf-8") as fp:
-    #     specific = json.load(fp)
 
     demo_factory = CaptchaFactory(char_custom_fns=[custom_fn], bg_custom_fns=[bg_custom_fn], **demo_config)
-    number = 3
-    while number:
-        # captcha = demo_factory.generate_captcha(specific_chars=specific)
+    for i in range(1,count+1):
         captcha = demo_factory.generate_captcha()
-        captcha.save("output/%s/%s.jpg" % (project_name, captcha.text))
-        print(captcha.text, captcha.num)
+        captcha.save("output/%s/%s/%s.jpg" % (project_name, type,i))
 
-        number -= 1
+        with open('output/%s/%s.txt'%(project_name,type),'a',encoding='utf-8') as f:
+            f.write('%s/%s.jpg\t%s\n'%(type,i,captcha.text))
+
+
 
 
 if __name__ == "__main__":
-    main()
+    main('train',32000)
+    main('test',8000)
+    main('hand',10)
+    # print(string.ascii_lowercase)
