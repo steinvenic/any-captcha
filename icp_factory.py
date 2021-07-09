@@ -21,8 +21,7 @@ def bg_custom_fn(bg):
     return bg
 
 
-def main(type,count):
-    project_name = "icp"
+def main(out_path,type,count):
     with open("configs/icp.json", encoding="utf-8") as fp:
         demo_config = json.load(fp)
 
@@ -30,16 +29,17 @@ def main(type,count):
     demo_factory = CaptchaFactory(char_custom_fns=[custom_fn], bg_custom_fns=[bg_custom_fn], **demo_config)
     for i in range(1,count+1):
         captcha = demo_factory.generate_captcha()
-        captcha.save("output/%s/%s/%s.jpg" % (project_name, type,i))
+        captcha.save("%s/%s/%s.jpg" % (out_path, type,i))
 
-        with open('output/%s/%s.txt'%(project_name,type),'a',encoding='utf-8') as f:
+        with open('%s/%s.txt'%(out_path,type),'a',encoding='utf-8') as f:
             f.write('%s/%s.jpg\t%s\n'%(type,i,captcha.text))
 
 
 
 
 if __name__ == "__main__":
-    main('train',32000)
-    main('test',8000)
-    main('hand',10)
+    out_path = input('请输入输出路径：')
+    main(out_path,'train',320000)
+    main(out_path,'test',80000)
+    main(out_path,'hand',10)
     # print(string.ascii_lowercase)
